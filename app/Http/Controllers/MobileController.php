@@ -66,7 +66,7 @@ class MobileController extends Controller
 			}
 			return response()->json(['total' => $query->total(), 'count' => count($data), 'page' => $r->page ?? 1, 'data' => $data], 200);
 		}
-		return response()->json(['data' => [[
+		return response()->json(['total' => 0, 'count' => 0, 'page' => 0, 'data' => [[
 			'no' => 0,
 			'id' => "",
 			'uuid' => "",
@@ -110,7 +110,7 @@ class MobileController extends Controller
 			}
 			return response()->json(['total' => $screen->total(), 'count' => count($screen), 'page' => $r->page ?? 1, 'data' => $data], 200);
 		}
-		return response()->json(['data' => [[
+		return response()->json(['total' => 0, 'count' => 0, 'page' => 0, 'data' => [[
 			'id' => "",
 			'uuid' => "",
 			'pid' => "",
