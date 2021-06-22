@@ -8,4 +8,4 @@
 - Buka terminal/cmd dan arahkan ke dalam folder hasil clone
 - Ketik **_composer update_** dan tunggu hinggal proses selesai
 - Selanjutnya ketik **_php artisan migrate:fresh --seed_**
-- Tes jalankan dengan mengetik **_php artisan server_** dan akses melalui browser dengan alamat: **_[http://localhost:8000](http://localhost:8000)_**
+- Tes jalankan dengan mengetik **_php artisan serve_** dan akses melalui browser dengan alamat: **_[http://localhost:8000](http://localhost:8000)_**
