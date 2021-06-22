@@ -1,0 +1,53 @@
+// compileCompressed: ../css/styles.min.css
+
+$colorInfo: #17a2b8;
+html,body{
+  a{
+    color: $colorInfo;
+  }
+}
+.swal2-title{
+  padding: 5px;
+}
+.page-link{
+  color: $colorInfo;
+}
+.page-item.active .page-link{
+  background-color: $colorInfo;
+  border-color: $colorInfo;
+}
+#search-wrap{
+  position: relative;
+  #search-result{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-top: 1px;
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+    li{
+      padding: 5px 10px;
+      border: solid 1px $colorInfo;
+      background-color: $colorInfo;
+      color: #fff;
+      &:first-child{
+        border-radius: 3px 3px 0 0;
+      }
+      &:last-child{
+        border-radius: 0 0 3px 3px;
+      }
+      &:hover,&:active{
+        cursor: pointer;
+        background-color: darken($colorInfo, 10);
+        border-color: darken($colorInfo, 10);
+      }
+    }
+  }
+}
+.bg-datang{
+  background-color: lighten($color: #ecffec, $amount: 1);
+}
+.bg-pulang{
+  background-color: lighten($color: #ffecec, $amount: 1);
+}
