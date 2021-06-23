@@ -188,24 +188,27 @@ class MobileController extends Controller
 		$no = 0;
 		$limit = $this->limit;
 
-		$q1 = Siswa::where('nis', 'like', "%$query%")
+		$q1 = Siswa::with('screen')
+			->where('nis', 'like', "%$query%")
 			->orWhere('name', 'like', "%$query%")
 			->orWhereHas('kelas', function ($q) use ($query) {
 				$q->where('name', 'like', "%$query%");
 			});
 
 
-		$q2 = Guru::where('nip', 'like', "%$query%")
+		$q2 = Guru::with('screen')
+			->where('nip', 'like', "%$query%")
 			->orWhere('name', 'like', "%$query%")
 			->orWhere('jabatan', 'like', "%$query%")
 			->union($q1)
 			->paginate($limit);
 
-		// return response()->json($q2, 200);
-
 		if (count($q2) && $limit > 0) {
 			foreach ($q2 as $key => $v) {
-				$screen = $v->screen()->where('kegiatan_id', $kegiatan->id)->orderBy('id', 'desc')->first();
+				$screen = Screen::where('peserta_id', $v->id)
+					->where('kegiatan_id', $kegiatan->id)
+					->orderBy('id', 'desc')
+					->first();
 				$pid = $v->nis ?? ($v->nip != '' ? $v->nip : 'Tenaga Sukarela');
 				$kelas = Kelas::find($v->jabatan);
 				array_push($data, [
@@ -230,7 +233,7 @@ class MobileController extends Controller
 		if (count($data)) {
 			return response()->json(['total' => $q2->total(), 'count' => count($data), 'page' => $r->page ?? 1, 'data' => $data], 200);
 		}
-		return response()->json(['data' => [[
+		return response()->json(['total' => 0, 'count' => 0, 'page' => 0, 'data' => [[
 			'id' => "",
 			'uuid' => "",
 			'pid' => "",
