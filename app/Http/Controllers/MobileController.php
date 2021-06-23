@@ -205,12 +205,13 @@ class MobileController extends Controller
 
 		if (count($q2) && $limit > 0) {
 			foreach ($q2 as $key => $v) {
-				$screen = Screen::where('peserta_id', $v->id)
-					->where('kegiatan_id', $kegiatan->id)
-					->orderBy('id', 'desc')
-					->first();
 				$pid = $v->nis ?? ($v->nip != '' ? $v->nip : 'Tenaga Sukarela');
 				$kelas = Kelas::find($v->jabatan);
+				$screen = Screen::where('peserta_id', $v->id)
+					->where('kegiatan_id', $kegiatan->id)
+					->where('role', ($kelas ? 'siswa' : 'guru'))
+					->orderBy('id', 'desc')
+					->first();
 				array_push($data, [
 					'id' => $v->id,
 					'uuid' => $v->uuid,
