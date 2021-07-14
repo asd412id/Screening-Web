@@ -65,6 +65,7 @@ class KegiatanController extends Controller
     $insert->tahun_pelajaran = $r->tahun_pelajaran;
     $insert->semester = $r->semester;
     $insert->max_temp = $r->max_temp ?? 0;
+    $insert->petugas = $r->petugas;
 
     if ($insert->save()) {
       return redirect()->route('kegiatan.peserta', ['uuid' => $insert->uuid])->with('msg', 'Data berhasil disimpan');
@@ -105,9 +106,10 @@ class KegiatanController extends Controller
     $insert->tahun_pelajaran = $r->tahun_pelajaran;
     $insert->semester = $r->semester;
     $insert->max_temp = $r->max_temp ?? 0;
+    $insert->petugas = $r->petugas;
 
     if ($insert->save()) {
-      return redirect()->route('kegiatan.peserta', ['uuid' => $uuid])->with('msg', 'Data berhasil disimpan');
+      return redirect()->route('kegiatan.index')->with('msg', 'Data berhasil disimpan');
     }
     return redirect()->back()->withErrors('Data gagal disimpan');
   }
@@ -271,6 +273,12 @@ class KegiatanController extends Controller
     $peserta->suhu = $r->suhu;
     $peserta->kondisi = $r->kondisi;
     $peserta->keterangan = $r->keterangan;
+    if ($r->role == 'siswa') {
+      $getSiswa = Siswa::find($r->peserta_id);
+      $peserta->opt = [
+        'kelas' => $getSiswa->kelas->name
+      ];
+    }
 
     if ($peserta->save()) {
       return redirect()->route('kegiatan.peserta', ['uuid' => $uuid])->with('msg', 'Data berhasil disimpan');
@@ -310,7 +318,9 @@ class KegiatanController extends Controller
       $list[$v->peserta_id . $v->role]['pid'] = $v->{$v->role}->nis ?? $v->{$v->role}->nip ?? '-';
       $list[$v->peserta_id . $v->role]['name'] = $v->{$v->role}->name;
       $list[$v->peserta_id . $v->role]['role'] = $v->role;
-      $list[$v->peserta_id . $v->role]['kelas'] = @$v->{$v->role}->kelas->name;
+      if (!isset($list[$v->peserta_id . $v->role]['kelas'])) {
+        $list[$v->peserta_id . $v->role]['kelas'] = @$v->opt->kelas ?? @$v->{$v->role}->kelas->name;
+      }
       if (!$v->status) {
         $list[$v->peserta_id . $v->role]['datang'] = $v;
       } else {
@@ -319,7 +329,7 @@ class KegiatanController extends Controller
     }
 
     if (!count($peserta)) {
-      return redirect()->back()->withErrors('Tidak ada ' . $r->role . ' dalam kegiatan ini');
+      return redirect()->back()->withErrors('Tidak ada ' . ($r->role != 'all' ? $r->role : 'peserta') . ' dalam kegiatan ini');
     }
 
     $data = [

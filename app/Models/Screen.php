@@ -19,9 +19,13 @@ class Screen extends Model
 		'suhu',
 		'kondisi',
 		'keterangan',
+		'opt',
 	];
 
 	protected $dates = ['tanggal', 'created_at', 'updated_at'];
+	protected $casts = [
+		'opt' => 'array'
+	];
 
 	public function kegiatan()
 	{
@@ -45,5 +49,9 @@ class Screen extends Model
 	public function getSuhuAttribute($value)
 	{
 		return round($value, 1);
+	}
+	public function getOptAttribute($value)
+	{
+		return json_decode($value);
 	}
 }

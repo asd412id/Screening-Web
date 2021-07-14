@@ -15,11 +15,14 @@ class Kegiatan extends Model
 		'tahun_pelajaran',
 		'semester',
 		'max_temp',
+		'petugas',
 	];
 
 	protected $appends = ['tanggal_slash'];
 
 	protected $dates = ['tanggal'];
+
+	protected $casts = ['petugas' => 'array'];
 
 	public function screen_all()
 	{
@@ -46,5 +49,9 @@ class Kegiatan extends Model
 	public function getMaxTempAttribute($value)
 	{
 		return round($value, 1);
+	}
+	public function getPetugasAttribute($value)
+	{
+		return json_decode($value);
 	}
 }

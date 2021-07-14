@@ -284,6 +284,12 @@ class MobileController extends Controller
 			$peserta->suhu = $data_submit->suhu && $data_submit->suhu != ''  ? $data_submit->suhu : null;
 			$peserta->kondisi = $data_submit->kondisi;
 			$peserta->keterangan = $data_submit->keterangan && $data_submit->keterangan != '' ? $data_submit->keterangan : null;
+			if ($data_submit->role == 'siswa') {
+				$getSiswa = Siswa::find($data_submit->peserta_id);
+				$peserta->opt = [
+					'kelas' => $getSiswa->kelas->name
+				];
+			}
 
 			if ($peserta->save()) {
 				return response()->json(['status' => 'Data berhasil disimpan', 'data' => $peserta], 202);
