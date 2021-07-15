@@ -111,11 +111,16 @@
     <td>
       <table class="table">
         <tr>
-          <td width="25%">
+          <td width="25%" valign="top">
             <table>
               <tr>
                 <th><em>Keterangan</em></th>
                 <th colspan="2"><em>:</em></th>
+              </tr>
+              <tr>
+                <td>Total Peserta</td>
+                <td>:</td>
+                <td>{{ count($data) }}</td>
               </tr>
               <tr>
                 <td>Hadir</td>
@@ -129,7 +134,7 @@
               </tr>
             </table>
           </td>
-          <td>
+          <td valign="top">
             <table>
               <tr>
                 <th colspan="3">&nbsp;</th>
