@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Config;
 use App\Models\Guru;
 use App\Models\Kegiatan;
 use App\Models\Kelas;
@@ -45,6 +46,7 @@ class MobileController extends Controller
 
 	public function kegiatan(Request $r)
 	{
+		$configs = Config::configs();
 		$query = Kegiatan::orderBy("created_at", "desc")->paginate($this->limit);
 		if (count($query)) {
 			$data = [];
@@ -57,7 +59,8 @@ class MobileController extends Controller
 					'tanggal_slash' => $v->tanggal->translatedFormat('l, j F Y')
 						. "\nTahun Pelajaran\t\t: " . $v->tahun_pelajaran . ' - ' . ($v->semester == 1 ? 'Ganjil' : 'Genap')
 						. "\nSuhu Maksimal\t\t: " . $v->max_temp . "°C"
-						. "\nJumlah Peserta\t\t: " . $v->screen_all->groupBy('peserta_id')->count(),
+						. "\nJumlah Peserta\t\t: " . $v->screen_all->groupBy('peserta_id')->count()
+						. "\nPetugas\t\t\t\t\t\t\t\t: " . @$v->petugas->name ?? $configs->petugas_name,
 					'name' => $v->name,
 					'tahun_pelajaran' => $v->tahun_pelajaran,
 					'semester' => $v->semester,
@@ -97,10 +100,10 @@ class MobileController extends Controller
 					'name' => ($screen->firstItem() + $key) . '. ' . $v->peserta->name,
 					'credential' => $v->peserta->credential,
 					'kuuid' => $v->kegiatan->uuid,
-					'role' => "ID\t\t\t\t\t\t\t\t: " . $pid
+					'role' => "Screening\t: " . ($v->status ? 'Pulang' : 'Datang') . ' / ' . $v->suhu . '°C'
+						. "\nID\t\t\t\t\t\t\t\t: " . $pid
 						. "\nStatus\t\t\t\t: " . ucfirst($v->role)
-						. "\n" . ($v->peserta->jabatan ? "Jabatan \t\t: " . $v->peserta->jabatan : "Kelas\t\t\t\t\t: " . $v->peserta->kelas->name)
-						. "\nScreening\t: " . ($v->status ? 'Pulang' : 'Datang'),
+						. "\n" . ($v->peserta->jabatan ? "Jabatan \t\t: " . $v->peserta->jabatan : "Kelas\t\t\t\t\t: " . $v->peserta->kelas->name),
 					'status' => (int) $v->status,
 					'prokes' => (bool) $v->prokes,
 					'kondisi' => $v->kondisi,
