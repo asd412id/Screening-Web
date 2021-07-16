@@ -214,7 +214,7 @@ class SiswaController extends Controller
       'subject' => $data['title']
     ];
 
-    $pdf = PDF::loadView('siswa.kartu', $data, [], $params);
+    $pdf = PDF::loadView('siswa.kartu-nice', $data, [], $params);
     return $pdf->stream($data['title'] . '.pdf');
   }
 }

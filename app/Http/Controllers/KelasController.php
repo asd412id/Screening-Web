@@ -14,17 +14,17 @@ class KelasController extends Controller
 {
   public function index(Request $r)
   {
-    $lists = Kelas::when($r->s,function($q,$s){
-      $q->where('name','like',"%$s%");
+    $lists = Kelas::when($r->s, function ($q, $s) {
+      $q->where('name', 'like', "%$s%");
     })
-    ->paginate(10)
-    ->appends($r->all());
+      ->paginate(10)
+      ->appends($r->all());
     $data = [
       'title' => 'Data Master Kelas',
       'data' => $lists
     ];
 
-    return view('kelas.index',$data);
+    return view('kelas.index', $data);
   }
 
   public function create(Request $r)
@@ -32,7 +32,7 @@ class KelasController extends Controller
     $data = [
       'title' => 'Data Kelas Baru',
     ];
-    return view('kelas.create',$data);
+    return view('kelas.create', $data);
   }
 
   public function store(Request $r)
@@ -44,14 +44,14 @@ class KelasController extends Controller
       'name.required' => 'Nama kelas tidak boleh kosong',
       'name.unique' => 'Data kelas :input sudah ada',
     ];
-    Validator::make($r->all(),$roles,$msgs)->validate();
+    Validator::make($r->all(), $roles, $msgs)->validate();
 
     $insert = new Kelas;
     $insert->uuid = (string) Str::uuid();
     $insert->name = $r->name;
 
     if ($insert->save()) {
-      return redirect()->route('kelas.index')->with('msg','Data berhasil disimpan');
+      return redirect()->route('kelas.index')->with('msg', 'Data berhasil disimpan');
     }
     return redirect()->back()->withErrors('Data gagal disimpan');
   }
@@ -60,38 +60,38 @@ class KelasController extends Controller
   {
     $data = [
       'title' => 'Ubah Data Kelas',
-      'data' => Kelas::where('uuid',$uuid)->first(),
+      'data' => Kelas::where('uuid', $uuid)->first(),
     ];
-    return view('kelas.edit',$data);
+    return view('kelas.edit', $data);
   }
 
-  public function update(Request $r,$uuid)
+  public function update(Request $r, $uuid)
   {
     $roles = [
-      'name' => 'required|unique:kelas,name,'.$uuid.',uuid',
+      'name' => 'required|unique:kelas,name,' . $uuid . ',uuid',
     ];
     $msgs = [
       'name.required' => 'Nama kelas tidak boleh kosong',
       'name.unique' => 'Data kelas :input sudah ada',
     ];
-    Validator::make($r->all(),$roles,$msgs)->validate();
+    Validator::make($r->all(), $roles, $msgs)->validate();
 
-    $insert = Kelas::where('uuid',$uuid)->first();
+    $insert = Kelas::where('uuid', $uuid)->first();
     $insert->name = $r->name;
 
     if ($insert->save()) {
-      return redirect()->route('kelas.index')->with('msg','Data berhasil disimpan');
+      return redirect()->route('kelas.index')->with('msg', 'Data berhasil disimpan');
     }
     return redirect()->back()->withErrors('Data gagal disimpan');
   }
 
   public function destroy($uuid)
   {
-    $delete = Kelas::where('uuid',$uuid)->first();
+    $delete = Kelas::where('uuid', $uuid)->first();
     if ($delete->delete()) {
-      return redirect()->route('kelas.index')->with('msg','Data berhasil dihapus');
+      return redirect()->route('kelas.index')->with('msg', 'Data berhasil dihapus');
     }
-    return redirect()->route('kelas.index')->with('msg','Data gagal dihapus');
+    return redirect()->route('kelas.index')->with('msg', 'Data gagal dihapus');
   }
 
   public function printCard($uuid)
@@ -104,10 +104,11 @@ class KelasController extends Controller
     ];
 
     $params = [
-      'subject' => $data['title']
+      'subject' => $data['title'],
+      'orientation' => 'l'
     ];
 
-    $pdf = PDF::loadView('siswa.kartu', $data, [], $params);
+    $pdf = PDF::loadView('siswa.kartu-nice', $data, [], $params);
     return $pdf->stream($data['title'] . '.pdf');
   }
 }
