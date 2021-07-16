@@ -76,15 +76,15 @@
                       <tr>
                         <td style="text-align: center">
                           <h5><em>Kelas</em></h5>
-                          <h4>{{ $kelas[0] }}</h4>
+                          <h4>{{ @$kelas[0]??'-' }}</h4>
                         </td>
                         <td style="text-align: center;padding-left: 15px">
                           <h5><em>Kelompok</em></h5>
-                          <h4>{{ $kelas[1] }}</h4>
+                          <h4>{{ @$kelas[1]??'-' }}</h4>
                         </td>
                         <td style="text-align: center">
                           <h5><em>Ruang</em></h5>
-                          <h4 style="padding-right: 20px">{{ $kelas[2] }}</h4>
+                          <h4 style="padding-right: 20px">{{ @$kelas[2]??'-' }}</h4>
                         </td>
                       </tr>
                     </table>
