@@ -1,3 +1,4 @@
+@php($configs = App\Models\Config::configs());
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
@@ -56,7 +57,17 @@
           <tr>
             <td valign="top"
               style="height: 394px;width: 305px;background-image-resize: 6;background: url({{asset('assets/img/kartu_siswa.jpg')}});position: relative">
-              <table style="width: 100%;margin-top: 130px">
+              <table style="width: 100%;margin-top: 70px">
+                <tr>
+                  <td
+                    style="text-align: center;color: #fff;text-shadow: 1px 1px 3px #000;line-height: 1.05em;padding-bottom: 30px">
+                    <span
+                      style="font-size: 10.7pt;font-family: 'Bookman Old Style'">{{ @$configs->ins_name??'Nama Sekolah' }}</span><br>
+                    <em
+                      style="font-size: 8pt;color: yellow;text-shadow: 1px 1px 3px #000;text-align: center;font-family: 'Times New Roman', Times, serif;text-transform: uppercase">Tahun
+                      Pelajaran {{ @$configs->tahun_pelajaran??'2021/2022' }}</em>
+                  </td>
+                </tr>
                 <tr>
                   <td style="text-align: center;padding-left: 17px">
                     <img
@@ -90,12 +101,19 @@
                     </table>
                   </td>
                 </tr>
-              </table>
-            </td>
+                <tr>
+                <tr>
+                  <td style="text-align: center;color: #fff;text-shadow: 1px 1px 1px #000;padding-top: 28px">
+                    <em style="font-size: 8pt">&copy; {{ date('Y') }} by asd412id</em>
+                  </td>
+                </tr>
           </tr>
         </table>
       </td>
-      @endforeach
+    </tr>
+  </table>
+  </td>
+  @endforeach
   </table>
 </body>
 
