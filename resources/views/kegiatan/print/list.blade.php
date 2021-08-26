@@ -78,21 +78,24 @@
     $tidak_memenuhi++;
     }
     @endphp
-    <tr
-      class="{{ @$v['datang']->suhu>=$kegiatan->max_temp||@$v['pulang']->suhu>=$kegiatan->max_temp||!@$v['datang']->prokes||!@$v['pulang']->prokes?'text-danger':'' }}">
+    <tr>
       <td class="text-center">{{ ++$i }}.</td>
       <td>{{ @$v['pid'] }}</td>
       <td>{{ @$v['name'] }}</td>
       @if ($role=='siswa'&&!$kelas)
       <td class="text-center">{{ @$v['kelas'] }}</td>
       @endif
-      <td class="text-center">
+      <td
+        class="text-center {{ !is_null(@$v['datang']->prokes)&&!@$v['datang']->prokes?'text-danger font-weight-bold':'' }}">
         {{ @$v['datang']->suhu?(@$v['datang']->prokes?'Ya':(!is_null(@$v['datang']->prokes)?'Tidak':'-')):'-' }}</td>
-      <td class="text-center">{{ @$v['datang']->suhu && @$v['datang']->suhu != 0 ? @$v['datang']->suhu :'-' }}</td>
+      <td class="text-center {{ @$v['datang']->suhu>=$kegiatan->max_temp?'text-danger font-weight-bold':'' }}">
+        {{ @$v['datang']->suhu && @$v['datang']->suhu != 0 ? @$v['datang']->suhu :'-' }}</td>
       <td class="text-center">{{ @$v['datang']->suhu?(@$v['datang']->kondisi??'-'):'-' }}</td>
-      <td class="text-center">
+      <td
+        class="text-center {{ !is_null(@$v['pulang']->prokes)&&!@$v['pulang']->prokes?'text-danger font-weight-bold':'' }}">
         {{ @$v['pulang']->suhu?(@$v['pulang']->prokes?'Ya':(!is_null(@$v['pulang']->prokes)?'Tidak':'-')):'-' }}</td>
-      <td class="text-center">{{ @$v['pulang']->suhu && @$v['pulang']->suhu != 0? @$v['pulang']->suhu : '-' }}</td>
+      <td class="text-center {{ @$v['pulang']->suhu>=$kegiatan->max_temp?'text-danger font-weight-bold':'' }}">
+        {{ @$v['pulang']->suhu && @$v['pulang']->suhu != 0? @$v['pulang']->suhu : '-' }}</td>
       <td class="text-center">{{ @$v['pulang']->suhu?(@$v['pulang']->kondisi??'-'):'-' }}</td>
       <td>
         @if (@$v['datang']->keterangan)
