@@ -72,8 +72,8 @@
     if (!@$v['datang']->suhu && !@$v['pulang']->suhu) {
     $tidak_hadir++;
     }
-    if (!@$v['datang']->suhu || !@$v['pulang']->suhu ||
-    @$v['datang']->suhu>=$kegiatan->max_temp||@$v['pulang']->suhu>=$kegiatan->max_temp||!@$v['datang']->prokes||!@$v['pulang']->prokes?'text-danger':'')
+    if
+    (@$v['datang']->suhu>=$kegiatan->max_temp||@$v['pulang']->suhu>=$kegiatan->max_temp||(!is_null(@$v['datang']->prokes)&&!@$v['datang']->prokes)||(!is_null(@$v['pulang']->prokes)&&!@$v['pulang']->prokes)?'text-danger':'')
     {
     $tidak_memenuhi++;
     }
