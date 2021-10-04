@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommonController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -63,5 +64,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/{uuid}/{suuid}/hapus', 'KegiatanController@screenDestroy')->name('kegiatan.screen.destroy');
     Route::get('/{uuid}/cetak', 'KegiatanController@printPeserta')->name('kegiatan.peserta.print');
     Route::post('/{uuid}/cetak', 'KegiatanController@printPeserta')->name('kegiatan.peserta.print.kelas');
+  });
+
+  Route::prefix('/ajax')->group(function () {
+    Route::get('/petugas', [CommonController::class, 'ajaxPetugas'])->name('ajax.petugas');
   });
 });

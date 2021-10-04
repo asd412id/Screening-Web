@@ -102,17 +102,17 @@ class CommonController extends BaseController
 			'siswa' => Siswa::count(),
 			'guru' => Guru::count(),
 			'kegiatan' => Kegiatan::count(),
-			'screen' => Screen::where('tanggal','>=',now()->startOfDay())
-			->where('tanggal','<=',now()->endOfDay())
-			->count(),
+			'screen' => Screen::where('tanggal', '>=', now()->startOfDay())
+				->where('tanggal', '<=', now()->endOfDay())
+				->count(),
 		];
 		return view('index', $data);
 	}
 
 	public function downloadTemplate($type)
 	{
-		$pathToFile = public_path('files/import_'.$type.'_template.csv');
-		$name = 'Import Data '.ucfirst($type).'.csv';
+		$pathToFile = public_path('files/import_' . $type . '_template.csv');
+		$name = 'Import Data ' . ucfirst($type) . '.csv';
 		return response()->download($pathToFile, $name);
 	}
 
@@ -146,5 +146,18 @@ class CommonController extends BaseController
 			return redirect()->route('config')->with('msg', 'Pengaturan berhasil diperbaharui');
 		}
 		return redirect()->back()->withErrors('Pengaturan gagal disimpan');
+	}
+
+	public function ajaxPetugas(Request $r)
+	{
+		$petugas = Guru::where('nip', $r->q)
+			->orWhere('name', 'like', "%$r->q%")
+			->orWhere('jabatan', 'like', "%$r->q%")
+			->select('id', 'name as text')
+			->get();
+
+		return response()->json([
+			'results' => $petugas
+		]);
 	}
 }

@@ -59,9 +59,24 @@ if ($(".datepicker").length) {
     format: 'DD-MM-YYYY'
   });
 }
-$(".select2").select2({
-  theme: 'bootstrap4'
-});
+if ($(".select2").length > 0) {
+  $(".select2").select2({
+    allowClear: true
+  });
+}
+if ($(".select2-ajax").length > 0) {
+  $(".select2-ajax").each(function () {
+    var _this = $(this);
+    _this.off().select2({
+      allowClear: true,
+      minimumInputLength: 1,
+      placeholder: _this.data('placeholder') ?? 'Pilih',
+      ajax: {
+        url: _this.data('url')
+      }
+    });
+  });
+}
 
 var _tm;
 if ($("#search").length) {

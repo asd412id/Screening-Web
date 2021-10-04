@@ -58,6 +58,8 @@ class KegiatanController extends Controller
     ];
     Validator::make($r->all(), $roles, $msgs)->validate();
 
+    $petugas = Guru::find($r->petugas)->toArray();
+
     $insert = new Kegiatan;
     $insert->uuid = (string) Str::uuid();
     $insert->name = $r->name;
@@ -65,7 +67,7 @@ class KegiatanController extends Controller
     $insert->tahun_pelajaran = $r->tahun_pelajaran;
     $insert->semester = $r->semester;
     $insert->max_temp = $r->max_temp ?? 0;
-    $insert->petugas = $r->petugas;
+    $insert->petugas = $petugas;
 
     if ($insert->save()) {
       return redirect()->route('kegiatan.peserta', ['uuid' => $insert->uuid])->with('msg', 'Data berhasil disimpan');
@@ -100,13 +102,15 @@ class KegiatanController extends Controller
     ];
     Validator::make($r->all(), $roles, $msgs)->validate();
 
+    $petugas = Guru::find($r->petugas)->toArray();
+
     $insert = Kegiatan::where('uuid', $uuid)->first();
     $insert->name = $r->name;
     $insert->tanggal = $r->tanggal;
     $insert->tahun_pelajaran = $r->tahun_pelajaran;
     $insert->semester = $r->semester;
     $insert->max_temp = $r->max_temp ?? 0;
-    $insert->petugas = $r->petugas;
+    $insert->petugas = $petugas;
 
     if ($insert->save()) {
       return redirect()->route('kegiatan.index')->with('msg', 'Data berhasil disimpan');

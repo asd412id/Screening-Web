@@ -45,13 +45,8 @@
             </div>
             <div class="form-group">
               <label for="petugas_name">Nama Petugas</label>
-              <input type="text" name="petugas[name]" class="form-control" id="petugas_name"
-                placeholder="Nama Petugas Screening" value="{{ @old('petugas')['name'] }}">
-            </div>
-            <div class="form-group">
-              <label for="petugas_nip">NIP Petugas</label>
-              <input type="text" name="petugas[nip]" class="form-control" id="petugas_nip"
-                placeholder="NIP Petugas Screening" value="{{ @old('petugas')['nip'] }}">
+              <select name="petugas" id="petugas_name" class="form-control select2-ajax"
+                data-placeholder="Pilih Petugas Screening" data-url="{{ route('ajax.petugas') }}"></select>
             </div>
           </div>
           <div class="card-footer">
