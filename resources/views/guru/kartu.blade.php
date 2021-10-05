@@ -1,86 +1,118 @@
+@php($configs = App\Models\Config::configs());
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>{!! $title !!}</title>
-    @include('print-style')
-    <style>
-    html,body{
+
+<head>
+  <meta charset="utf-8">
+  <title>{!! $title !!}</title>
+  @include('print-style')
+  <style>
+    html,
+    body {
       background: none;
     }
-    .card{
-      border-collapse: collapse;
-      border: solid 1px #000;
-      page-break-inside: avoid !important;
-      font-size: 0.6em !important;
-      width: 100%;
-    }
-    .no-border{
+
+    .no-border {
       border: none !important;
     }
-    .detail{
+
+    .detail {
       width: 100%;
     }
-    .detail .info{
+
+    .detail .info {
       text-transform: uppercase;
     }
-    .detail .info td{
+
+    .detail .info td {
       vertical-align: top;
     }
-    @page{
-      margin: 20px;
+
+    table td,
+    table tr {
+      background: transparent;
     }
-    </style>
-  </head>
-  <body>
-    <table class="table" cellpadding="0" cellspacing="0">
-      @php ($i = 1)
-      @foreach ($data as $key => $p)
-        @if ($i == 3)
-          @php ($i = 1)
-          </tr>
-        @endif
-        @if ($i == 1)
+
+    @page {
+      margin: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <table class="table" cellpadding="0" cellspacing="0">
+    @php ($i = 1)
+    @foreach ($data as $key => $p)
+    @if ($i == 5)
+    @php ($i = 1)
+    </tr>
+    @endif
+    @if ($i == 1)
+    <tr>
+      @endif
+      @php ($i++)
+      <td style="padding: 1px">
+        <table>
           <tr>
-        @endif
-        @php ($i++)
-          <td style="padding: 5px">
-            <table class="card" border="1">
-              <tr>
-                <td>
-                  <table class="detail" style="margin-bottom: 30px;margin-top: 20px">
-                    <tr>
-                      <td colspan="4" class="text-center" style="font-weight: bold;font-size: 1.3em;padding-top: 5px;padding-bottom: 20px">{{ strtoupper($title) }}</td>
-                    </tr>
-                    <tr class="info">
-                      <td style="width: 100px;padding-left: 15px;padding-top: 5px">NIP</td>
-                      <td style="width: 10px;padding-top: 5px">:</td>
-                      <td style="font-weight:  bold;padding-top: 5px">{{ $p->nip??'-' }}</td>
-                      <td rowspan="4" style="text-align: right; padding: 15px;padding-right: 30px">
-                        <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(85)->generate($p->credential)) !!}" alt="">
-                      </td>
-                    </tr>
-                    <tr class="info">
-                      <td style="width: 100px;padding-left: 15px">NAMA</td>
-                      <td style="width: 10px">:</td>
-                      <td style="font-weight:  bold">{{ $p->name }}</td>
-                    </tr>
-                    <tr class="info">
-                      <td style="width: 100px;padding-left: 15px">JENIS KELAMIN</td>
-                      <td style="width: 10px">:</td>
-                      <td style="font-weight:  bold">{{ $p->jk=='L'?'LAKI-LAKI':'PEREMPUAN' }}</td>
-                    </tr>
-                    <tr class="info">
-                      <td style="width: 100px;padding-left: 15px">JABATAN</td>
-                      <td style="width: 10px">:</td>
-                      <td style="font-weight:  bold">{{ $p->jabatan??'-' }}</td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-            </table>
-          </td>
-        @endforeach
-    </table>
-  </body>
+            <td valign="top"
+              style="height: 394px;width: 305px;background-image-resize: 6;background: url({{asset('assets/img/kartu_petugas.jpg')}});position: relative">
+              <table style="width: 100%;margin-top: 58px">
+                <tr>
+                  <td
+                    style="text-align: center;color: #fff;text-shadow: 1px 1px 3px #000;line-height: 1.05em;padding-bottom: 30px">
+                    <span
+                      style="font-size: 10pt;color: #f3be09;font-family: 'Bookman Old Style'">{{ @$configs->kop_kartu_petugas??'KARTU PETUGAS' }}</span><br>
+                    <span
+                      style="font-size: 10.7pt;font-family: 'Bookman Old Style'">{{ @$configs->ins_name??'Nama Sekolah' }}</span><br>
+                    <em
+                      style="font-size: 8pt;color: yellow;text-shadow: 1px 1px 3px #000;text-align: center;font-family: 'Times New Roman', Times, serif;text-transform: uppercase">Tahun
+                      Pelajaran {{ @$configs->tahun_pelajaran??'2021/2022' }}</em>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align: center;padding-left: 16px">
+                    <img
+                      src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(85)->generate($p->credential)) !!}"
+                      alt="" style="transform: rotate(45deg)">
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align: center;padding-top: 30px">
+                    <h4 style="font-weight: bold;{{ strlen($p->name)>28?'font-size: 1.05em':'' }}">{{ $p->name }}</h4>
+                    @if ($p->nip)
+                    <em>NIP. {{ $p->nip }}</em>
+                    @else
+                    <em>&nbsp;</em>
+                    @endif
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-top: {{ strlen($p->name)>28?'29px':'25px' }}">
+                    <table style="width: 100%">
+                      <tr>
+                        <td style="text-align: center">
+                          <h5><em>&nbsp;</em></h5>
+                          <h4 style="{{ strlen($p->jabatan)>30?'font-size: 1em':'' }}">{{ $p->jabatan }}</h4>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                <tr>
+                  <td
+                    style="text-align: center;color: #fff;text-shadow: 1px 1px 1px #000;padding-top: {{ strlen($p->jabatan)>30?'14px':'26px' }}">
+                    <em style="font-size: 8pt">&copy; {{ date('Y').' '.@$configs->ins_name }}</em>
+                  </td>
+                </tr>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  </td>
+  @endforeach
+  </table>
+</body>
+
 </html>

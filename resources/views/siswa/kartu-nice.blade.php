@@ -57,10 +57,12 @@
           <tr>
             <td valign="top"
               style="height: 394px;width: 305px;background-image-resize: 6;background: url({{asset('assets/img/kartu_siswa.jpg')}});position: relative">
-              <table style="width: 100%;margin-top: 70px">
+              <table style="width: 100%;margin-top: 57px">
                 <tr>
                   <td
                     style="text-align: center;color: #fff;text-shadow: 1px 1px 3px #000;line-height: 1.05em;padding-bottom: 30px">
+                    <span
+                      style="font-size: 10pt;color: #f3be09;font-family: 'Bookman Old Style'">{{ @$configs->kop_kartu_petugas??'KARTU SISWA' }}</span><br>
                     <span
                       style="font-size: 10.7pt;font-family: 'Bookman Old Style'">{{ @$configs->ins_name??'Nama Sekolah' }}</span><br>
                     <em
@@ -103,8 +105,8 @@
                 </tr>
                 <tr>
                 <tr>
-                  <td style="text-align: center;color: #fff;text-shadow: 1px 1px 1px #000;padding-top: 28px">
-                    <em style="font-size: 8pt">&copy; {{ date('Y') }} by asd412id</em>
+                  <td style="text-align: center;color: #fff;text-shadow: 1px 1px 1px #000;padding-top: 26px">
+                    <em style="font-size: 8pt">&copy; {{ date('Y').' '.@$configs->ins_name }}</em>
                   </td>
                 </tr>
           </tr>

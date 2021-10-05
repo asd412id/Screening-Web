@@ -30,6 +30,16 @@
               <input type="text" name="tahun_pelajaran" class="form-control" id="tahun_pelajaran"
                 placeholder="Tahun Pelajaran" value="{{ old('tahun_pelajaran')??(@$data->tahun_pelajaran) }}">
             </div>
+            <div class="form-group">
+              <label for="kop_kartu_petugas">Kop Kartu Petugas</label>
+              <input type="text" name="kop_kartu_petugas" class="form-control" id="kop_kartu_petugas"
+                placeholder="Tahun Pelajaran" value="{{ old('kop_kartu_petugas')??(@$data->kop_kartu_petugas) }}">
+            </div>
+            <div class="form-group">
+              <label for="kop_kartu_siswa">Kop Kartu Siswa</label>
+              <input type="text" name="kop_kartu_siswa" class="form-control" id="kop_kartu_siswa"
+                placeholder="Tahun Pelajaran" value="{{ old('kop_kartu_siswa')??(@$data->kop_kartu_siswa) }}">
+            </div>
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">

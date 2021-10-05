@@ -199,7 +199,8 @@ class GuruController extends Controller
     ];
 
     $params = [
-      'subject' => $data['title']
+      'subject' => $data['title'],
+      'orientation' => 'l'
     ];
 
     $pdf = PDF::loadView('guru.kartu', $data, [], $params);
